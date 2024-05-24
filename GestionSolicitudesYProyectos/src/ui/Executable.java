@@ -41,7 +41,7 @@ public class Executable {
 			switch (option) {
 
 				case 1:
-					System.out.println(controller.listArea());
+					System.out.println(controller.listCollaborator());
 					break;
 				case 2:
 					System.out.println("Proximamente :)");

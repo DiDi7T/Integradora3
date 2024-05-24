@@ -2,13 +2,14 @@ package model;
 
 public class Collaborator {
     
+    private Area area;
     private String id;
     private String fullName;
     private String email;
     private String extension;
     private Project[] projects;
 
-    public Collaborator(String id, String fullName, String email, String extension) {
+    public Collaborator(Area area, String id, String fullName, String email, String extension) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -32,6 +33,10 @@ public class Collaborator {
         return extension;
     }
 
+    public Area getArea() {
+        return area;
+    }
+
     public Project[] getProjects() {
         return projects;
     }
@@ -43,7 +48,7 @@ public class Collaborator {
 		
 		msg+= "Numero de identificacion:" + id;
 		msg += "\nNombre Completo" +fullName;
-		msg += "\nNombre del area: " + email;
+		msg += "\nNombre del area: " + area;
         msg += "\nNombre del lider de area: " + extension;
 		
 		return msg;

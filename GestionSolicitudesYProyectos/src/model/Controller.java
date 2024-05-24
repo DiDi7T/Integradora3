@@ -6,14 +6,18 @@ import java.util.ArrayList;
 
 public class Controller {
 	private ArrayList<Project> storage;
-	private Area[] areas;
-	private Collaborator[] collaborators;
+	private ArrayList<Area> areas;
+	private ArrayList<Collaborator> collaborators;
+	//private Area[] areas;
+	//private Collaborator[] collaborators;
 	
 
 	public Controller() {
 		storage = new ArrayList<Project>();
-		areas =new Area[500];
-		collaborators=new Collaborator[4];
+		areas = new ArrayList<Area>();
+		collaborators=new ArrayList<Collaborator>();
+		//areas =new Area[500];
+		//collaborators=new Collaborator[4];
 
 		
 
@@ -25,9 +29,9 @@ public class Controller {
 	 * validate the operation of important methods
 	 */
 	public void createTestCases() {
-		addArea("Departamento de Computacion y sistemas inteligentes", "COD", "AREA DE TRANSFORMACION","Ana sofia Cabrera");
-
-		addCollaborator(null, null, null, null);
+		addArea("Departamento de Computacion y sistemas inteligentes", "COD0", "AREA DE TRANSFORMACION","Ana sofia Cabrera");
+		addArea("Direccion de Planeacion y Gestion de Calidad", "COD", "Area de Transformacion y Mejoramiento","Ana sofia Cabrera");
+		addCollaborator("COD","1029293", "JUAN FELIPE", "jsjsjak", "jsajksajk");
 
 		storageKnowledge("COD4", "Prueba Proyectos", "Activo", "08-05-2023", 3, "Ana Sanchez", "Proyectos", 3, 3);
 		storageTransformation("COD5", "Prueba Proyectoss", "Cerrado", "28-05-2023", 3, "Ana Sanchez", "BU");
@@ -38,30 +42,70 @@ public class Controller {
 	 * 
 	 * @return list of offices
 	 */
+	// public String listArea() {
+	// 	String list = "| " + String.format("%2s %7s %2s %7s", "N°", "Oficina Asociada", "Codigo", "Nombre", "\n");
+	// 	for (int i = 0; i < areas.length; i++) {
+	// 		if (areas[i] != null) {
+	// 			list += "\n| " + (i + 1) + ".  " + areas[i].getOffice() + ". "+areas[i].getCode()+". "+areas[i].getName()+" |\n";
+	// 		}
+	// 	}
+	// 	return list;
+	// }
+
+
 	public String listArea() {
-		String list = "| " + String.format("%2s %7s %2s %7s", "N°", "Oficina Asociada", "Codigo", "Nombre", "\n");
-		for (int i = 0; i < areas.length; i++) {
-			if (areas[i] != null) {
-				list += "\n| " + (i + 1) + ".  " + areas[i].getOffice() + ". "+areas[i].getCode()+". "+areas[i].getName()+" |\n";
-			}
+
+	
+
+		String lista = "";
+
+		for (int i = 0; i < areas.size(); i++) {
+
+			lista += "\n" + areas.get(i).getCode() + "-" + areas.get(i).getName() + "-"
+					+ areas.get(i).getOffice();
+
 		}
-		return list;
+
+		return lista;
+
 	}
+
+
+	public String listCollaborator() {
+
+
+		String lista = "";
+
+		for (int i = 0; i < collaborators.size(); i++) {
+
+			lista += "\n" + collaborators.get(i).getId() + "-" + collaborators.get(i).getFullName() + "-"
+					+ collaborators.get(i).getArea();
+
+		}
+
+		return lista;
+
+	}
+
+
+
+
+
 
 	/**
 	 * Description: This method allows you to list the offices
 	 * 
 	 * @return list of offices
 	 */
-	public String listCollaborator() {
-		String list = "| " + String.format("%2s %7s %2s %7s", "N°", "Identificacion", "Nombre Completo", "Correo electronico","Extension", "\n");
-		for (int i = 0; i < collaborators.length; i++) {
-			if (collaborators[i] != null) {
-				list += "\n| " + (i + 1) + ".  " + collaborators[i].getId() + ". "+collaborators[i].getFullName()+". "+collaborators[i].getEmail()+". "+collaborators[i].getExtension()+" |\n";
-			}
-		}
-		return list;
-	}
+	// public String listCollaborator() {
+	// 	String list = "| " + String.format("%2s %7s %2s %7s", "N°", "Identificacion", "Nombre Completo", "Correo electronico","Extension", "\n");
+	// 	for (int i = 0; i < collaborators.length; i++) {
+	// 		if (collaborators[i] != null) {
+	// 			list += "\n| " + (i + 1) + ".  " + collaborators[i].getId() + ". "+collaborators[i].getFullName()+". "+collaborators[i].getEmail()+". "+collaborators[i].getArea()+" |\n";
+	// 		}
+	// 	}
+	// 	return list;
+	// }
 
 	/**
 	 * Description: This method allows to system register offices
@@ -71,38 +115,57 @@ public class Controller {
 	 *         will be False.
 	 */
 
+	// public boolean addArea(String nameOffice, String code, String name, String leader) {
+
+	// 	Area newArea = new Area(nameOffice,code,name,leader);
+
+	// 	for (int i = 0; i < areas.length; i++) {
+
+	// 		if (areas[i] == null) {
+
+	// 			areas[i] = newArea;
+
+	// 			return true;
+	// 		} else if (areas[i].getName().equals(name)) {
+	// 			return false;
+	// 		}
+
+	// 	}
+
+	// 	return false;
+	// }
+
+
 	public boolean addArea(String nameOffice, String code, String name, String leader) {
 
 		Area newArea = new Area(nameOffice,code,name,leader);
+		for (int i = 0; i < areas.size(); i++) {
 
-		for (int i = 0; i < areas.length; i++) {
+			if (areas.get(i).getCode().equals(code)) {
 
-			if (areas[i] == null) {
-
-				areas[i] = newArea;
-
-				return true;
-			} else if (areas[i].getName().equals(name)) {
 				return false;
 			}
-
+			
+			
 		}
 
-		return false;
+		return areas.add(newArea); 
+
+
 	}
 
 
 	
 
-	private Area searchArea(String nameArea) {
+	private Area searchArea(String codeArea) {
 
-		for (int i = 0; i < areas.length; i++) {
+		for (int i = 0; i < areas.size(); i++) {
 
-			Area temporal = areas[i];
+			Area temporal = areas.get(i);
 
 			if (temporal != null) {
 
-				if (nameArea.equalsIgnoreCase(temporal.getName())) {
+				if (codeArea.equalsIgnoreCase(temporal.getCode())) {
 
 					return temporal;
 
@@ -122,25 +185,56 @@ public class Controller {
 	 *         will be False.
 	 */
 
-	 public boolean addCollaborator(String id, String fullName, String email, String extension) {
+	//  public boolean addCollaborator(String area,String id, String fullName, String email, String extension) {
 
-		Collaborator newCollab = new Collaborator(id,fullName,email,extension);
+	// 	Area temporal=searchArea(area);
+			
+	// 	if(temporal!=null){
 
-		for (int i = 0; i < collaborators.length; i++) {
+	// 		Collaborator newCollab = new Collaborator(temporal,id,fullName,email,extension);
 
-			if (collaborators[i] == null) {
+	// 		for (int i = 0; i < collaborators.length; i++) {
 
-				collaborators[i] = newCollab;
+	// 			if (collaborators[i] == null) {
 
-				return true;
-			} else if (collaborators[i].getId().equals(id)) {
-				return false;
+	// 				collaborators[i] = newCollab;
+
+	// 				return true;
+	// 			} else if (collaborators[i].getId().equals(id)) {
+	// 				return false;
+	// 			}
+
+	// 		}
+	// 	}
+
+		
+
+	// 	return false;
+	// }
+	 public boolean addCollaborator(String area,String id, String fullName, String email, String extension) {
+
+		Area temporal=searchArea(area);
+			
+		if(temporal!=null){
+			Collaborator newCollab = new Collaborator(temporal,id,fullName,email,extension);
+
+
+			for (int i = 0; i < collaborators.size(); i++) {
+
+				if (collaborators.get(i).getId().equals(id)) {
+	
+					return false;
+	
+				}
+	
 			}
-
+	
+			return collaborators.add(new Collaborator(temporal,id,fullName,email,extension)); // Polimorfismo
 		}
 
-		return false;
 	}
+
+	
 
 	/**
 	 * Description: This method allows you to list the projects
