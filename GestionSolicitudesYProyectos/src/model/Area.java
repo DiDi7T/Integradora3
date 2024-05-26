@@ -1,18 +1,20 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Area {
     private String office;
     private String code;
     private String name;
     private String leader;
-    private Collaborator[] collaborators;
+    private ArrayList<Collaborator> collaborators;
 
     public Area(String office, String code, String name, String leader) {
         this.office = office;
         this.code = code;
         this.name = name;
         this.leader = leader;
-        collaborators = new Collaborator[4];
+        this.collaborators = new ArrayList<>();
     }
 
     @Override
@@ -43,19 +45,15 @@ public class Area {
         return leader;
     }
 
-    public boolean addCollaborator(Collaborator newCollab) {
-
-        for (int i = 0; i < collaborators.length; i++) {
-
-            if (collaborators[i] == null) {
-
-                collaborators[i] = newCollab;
-
-                return true;
-            }
-
+    public ArrayList<Collaborator> getCollaborators() {
+        return collaborators;
+    }
+    public boolean addCollaborator(Collaborator collaborator) {
+        if (this.collaborators.size() < 4) {
+            this.collaborators.add(collaborator);
+            return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 }

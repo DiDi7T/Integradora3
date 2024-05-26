@@ -8,18 +8,15 @@ public class Controller {
 	private ArrayList<Project> storage;
 	private ArrayList<Area> areas;
 	private ArrayList<Collaborator> collaborators;
-	//private Area[] areas;
-	//private Collaborator[] collaborators;
-	
+	// private Area[] areas;
+	// private Collaborator[] collaborators;
 
 	public Controller() {
 		storage = new ArrayList<Project>();
 		areas = new ArrayList<Area>();
-		collaborators=new ArrayList<Collaborator>();
-		//areas =new Area[500];
-		//collaborators=new Collaborator[4];
-
-		
+		collaborators = new ArrayList<Collaborator>();
+		// areas =new Area[500];
+		// collaborators=new Collaborator[4];
 
 		createTestCases();
 	}
@@ -29,33 +26,19 @@ public class Controller {
 	 * validate the operation of important methods
 	 */
 	public void createTestCases() {
-		addArea("Departamento de Computacion y sistemas inteligentes", "COD0", "AREA DE TRANSFORMACION","Ana sofia Cabrera");
-		addArea("Direccion de Planeacion y Gestion de Calidad", "COD", "Area de Transformacion y Mejoramiento","Ana sofia Cabrera");
-		addCollaborator("COD","1029293", "JUAN FELIPE", "jsjsjak", "jsajksajk");
+		addArea("Departamento de Computacion y sistemas inteligentes", "COD0", "AREA DE TRANSFORMACION",
+				"Ana sofia Cabrera");
+		addArea("Direccion de Planeacion y Gestion de Calidad", "COD", "Area de Transformacion y Mejoramiento",
+				"Ana sofia Cabrera");
+		addCollaborator("COD", "1029293", "JUAN FELIPE", "jsjsjak", "jsajksajk");
 
 		storageKnowledge("COD4", "Prueba Proyectos", "Activo", "08-05-2023", 3, "Ana Sanchez", "Proyectos", 3, 3);
 		storageTransformation("COD5", "Prueba Proyectoss", "Cerrado", "28-05-2023", 3, "Ana Sanchez", "BU");
 	}
 
-	/**
-	 * Description: This method allows you to list the offices
-	 * 
-	 * @return list of offices
-	 */
-	// public String listArea() {
-	// 	String list = "| " + String.format("%2s %7s %2s %7s", "N°", "Oficina Asociada", "Codigo", "Nombre", "\n");
-	// 	for (int i = 0; i < areas.length; i++) {
-	// 		if (areas[i] != null) {
-	// 			list += "\n| " + (i + 1) + ".  " + areas[i].getOffice() + ". "+areas[i].getCode()+". "+areas[i].getName()+" |\n";
-	// 		}
-	// 	}
-	// 	return list;
-	// }
-
+	
 
 	public String listArea() {
-
-	
 
 		String lista = "";
 
@@ -70,92 +53,39 @@ public class Controller {
 
 	}
 
+	
 
-	public String listCollaborator() {
+	public String listAllCollaboratorsWithAreas() {
+		int count = 1;
+		String list = "";
 
-
-		String lista = "";
-
-		for (int i = 0; i < collaborators.size(); i++) {
-
-			lista += "\n" + collaborators.get(i).getId() + "-" + collaborators.get(i).getFullName() + "-"
-					+ collaborators.get(i).getArea();
-
+		for (Area area : areas) {
+			if (area.getCode().equalsIgnoreCase("COD")) {
+				list += "Área: " + area.getName() + "\n";
+				for (Collaborator collaborator : area.getCollaborators()) {
+					list += "  - " + count + ". " + collaborator.getFullName() + ", ID: " + collaborator.getId();
+					count++;
+				}
+			}
 		}
-
-		return lista;
-
+		return list;
 	}
-
-
-
-
-
-
-	/**
-	 * Description: This method allows you to list the offices
-	 * 
-	 * @return list of offices
-	 */
-	// public String listCollaborator() {
-	// 	String list = "| " + String.format("%2s %7s %2s %7s", "N°", "Identificacion", "Nombre Completo", "Correo electronico","Extension", "\n");
-	// 	for (int i = 0; i < collaborators.length; i++) {
-	// 		if (collaborators[i] != null) {
-	// 			list += "\n| " + (i + 1) + ".  " + collaborators[i].getId() + ". "+collaborators[i].getFullName()+". "+collaborators[i].getEmail()+". "+collaborators[i].getArea()+" |\n";
-	// 		}
-	// 	}
-	// 	return list;
-	// }
-
-	/**
-	 * Description: This method allows to system register offices
-	 * 
-	 * @param name of office
-	 * @return boolean If the project was saved correctly it will be True, if not it
-	 *         will be False.
-	 */
-
-	// public boolean addArea(String nameOffice, String code, String name, String leader) {
-
-	// 	Area newArea = new Area(nameOffice,code,name,leader);
-
-	// 	for (int i = 0; i < areas.length; i++) {
-
-	// 		if (areas[i] == null) {
-
-	// 			areas[i] = newArea;
-
-	// 			return true;
-	// 		} else if (areas[i].getName().equals(name)) {
-	// 			return false;
-	// 		}
-
-	// 	}
-
-	// 	return false;
-	// }
-
 
 	public boolean addArea(String nameOffice, String code, String name, String leader) {
 
-		Area newArea = new Area(nameOffice,code,name,leader);
+		Area newArea = new Area(nameOffice, code, name, leader);
 		for (int i = 0; i < areas.size(); i++) {
 
 			if (areas.get(i).getCode().equals(code)) {
 
 				return false;
 			}
-			
-			
+
 		}
 
-		return areas.add(newArea); 
-
+		return areas.add(newArea);
 
 	}
-
-
-	
 
 	private Area searchArea(String codeArea) {
 
@@ -185,56 +115,20 @@ public class Controller {
 	 *         will be False.
 	 */
 
-	//  public boolean addCollaborator(String area,String id, String fullName, String email, String extension) {
-
-	// 	Area temporal=searchArea(area);
-			
-	// 	if(temporal!=null){
-
-	// 		Collaborator newCollab = new Collaborator(temporal,id,fullName,email,extension);
-
-	// 		for (int i = 0; i < collaborators.length; i++) {
-
-	// 			if (collaborators[i] == null) {
-
-	// 				collaborators[i] = newCollab;
-
-	// 				return true;
-	// 			} else if (collaborators[i].getId().equals(id)) {
-	// 				return false;
-	// 			}
-
-	// 		}
-	// 	}
-
-		
-
-	// 	return false;
+	// return false;
 	// }
-	 public boolean addCollaborator(String area,String id, String fullName, String email, String extension) {
+	public boolean addCollaborator(String area, String id, String fullName, String email, String extension) {
 
-		Area temporal=searchArea(area);
-			
-		if(temporal!=null){
-			Collaborator newCollab = new Collaborator(temporal,id,fullName,email,extension);
+		Area temporal = searchArea(area);
+		Collaborator newCollab = new Collaborator(temporal, id, fullName, email, extension);
 
+		if (temporal != null) {
 
-			for (int i = 0; i < collaborators.size(); i++) {
-
-				if (collaborators.get(i).getId().equals(id)) {
-	
-					return false;
-	
-				}
-	
-			}
-	
-			return collaborators.add(new Collaborator(temporal,id,fullName,email,extension)); // Polimorfismo
+			return temporal.addCollaborator(newCollab);
 		}
+		return false;
 
 	}
-
-	
 
 	/**
 	 * Description: This method allows you to list the projects
@@ -401,7 +295,7 @@ public class Controller {
 
 		switch (prioridad) {
 
-			case 1: 
+			case 1:
 				newPriority = Priority.URGENTE;
 				timeClosed = "5 dias";
 				break;
