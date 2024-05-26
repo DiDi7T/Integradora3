@@ -11,7 +11,7 @@ public class Knowledge extends Project{
 
 	
 
-	public Knowledge(String code, String name, String status, Calendar date, Priority priority, String nameLeader,
+	public Knowledge(String code, String name, String status, Calendar date, Priority priority, Collaborator nameLeader,
 			String timeClosed, String nameProcess, Community community, Type type) {
 		super(code, name, status, date, priority, nameLeader, timeClosed);
 		this.nameProcess = nameProcess;

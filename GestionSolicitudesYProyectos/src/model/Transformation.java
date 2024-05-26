@@ -8,7 +8,7 @@ public class Transformation extends Project{
 	private String codeProcess;
 	private Calendar dateClosed;
 
-    public Transformation(String code, String name, String status, Calendar date, Priority priority, String nameLeader,
+    public Transformation(String code, String name, String status, Calendar date, Priority priority, Collaborator nameLeader,
             String timeClosed, String codeProcess) {
         super(code, name, status, date, priority, nameLeader, timeClosed);
         this.codeProcess = codeProcess;

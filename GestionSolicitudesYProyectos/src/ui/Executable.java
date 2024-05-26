@@ -41,11 +41,12 @@ public class Executable {
 			switch (option) {
 
 				case 1:
+
 					registerRequest();
 					System.out.println(controller.listReq());
 					break;
 				case 2:
-					System.out.println("Proximamente :)");
+					changeReq();
 					break;
 				case 3:
 
@@ -100,14 +101,12 @@ public class Executable {
 		String description = reader.nextLine();
 
 		int status = 1;
-		
 
 		System.out.println(controller.listAllCollaboratorsWithAreas());
 		System.out.println("Digite el id del colaborador que sera responsable de esta solicitud:");
 		String collab = reader.nextLine();
 
-		
-		boolean resultado = controller.addRequest(code,description,status,collab);
+		boolean resultado = controller.addRequest(code, description, status, collab);
 
 		if (resultado) {
 			System.out.println("Solicitud registrada exitosamente");
@@ -239,7 +238,7 @@ public class Executable {
 
 	}
 
-	private void registerProject() {
+	private void registerProject(String codeReq, int optionR) {
 
 		System.out.println("Seleccione el proyecto a registrar");
 		System.out.println("1) Registrar proyecto de Gestion De Conocimiento");
@@ -250,11 +249,13 @@ public class Executable {
 		switch (option) {
 
 			case 1:
-				registerKnowledge();
+				registerKnowledge(codeReq);
+				controller.changeStatusReq(codeReq, optionR);
 				break;
 
 			case 2:
-				registerTransformation();
+				registerTransformation(codeReq);
+				controller.changeStatusReq(codeReq, optionR);
 				break;
 			case 0:
 				System.out.println("Volviendo al menu principal\n");
@@ -271,12 +272,12 @@ public class Executable {
 	 * Description: This method register a project of type Knowledge
 	 */
 
-	public void registerKnowledge() {
+	public void registerKnowledge(String codeReq) {
 
 		reader.nextLine(); // Correccion del bug del Scanner
 
-		System.out.println("Digite el codigo del proyecto");
-		String code = reader.nextLine();
+		// System.out.println("Digite el codigo del proyecto");
+		String code = codeReq.toUpperCase();
 
 		System.out.println("Digite el nombre del proyecto");
 		String name = reader.nextLine();
@@ -292,9 +293,8 @@ public class Executable {
 
 		reader.nextLine();
 
-		System.out.println("Digite el nombre del lider del proyecto:");
-		System.out.println(
-				"AREA DE TRANSFOMRACION \n 1. Ana Suarez \n 2. Guillermo Duarte\n 3.Rodrigo Martinez\n 4.Lina Forz");
+		System.out.println(controller.listAllCollaboratorsWithAreas());
+		System.out.println("Digite el id del colaborador que sera el lider del proyecto");
 		String nameLeader = reader.nextLine();
 
 		System.out.println("Digite el nombre del proceso a gestionar");
@@ -323,12 +323,12 @@ public class Executable {
 	 * Description: This method register a project of type Transformation
 	 */
 
-	public void registerTransformation() {
+	public void registerTransformation(String codeReq) {
 
 		reader.nextLine(); // Correccion del bug del Scanner
 
-		System.out.println("Digite el codigo del proyecto");
-		String code = reader.nextLine();
+		// System.out.println("Digite el codigo del proyecto");
+		String code = codeReq.toUpperCase();
 
 		System.out.println("Digite el nombre del proyecto");
 		String name = reader.nextLine();
@@ -384,4 +384,42 @@ public class Executable {
 
 	}
 
+	private void changeReq() {
+		reader.nextLine();
+		System.out.println("SOLICITUDES REGISTRADAS");
+		System.out.println(controller.listReqOpen());
+		if (controller.listReqOpen().equals("")) {
+			System.out.println("No hay solicitudes pendientes");
+		} else {
+			System.out.println("Seleccione el codigo de la solicitud que requiere gestionar:");
+			String codeReq = reader.nextLine();
+
+			String result = controller.showReq(codeReq);
+			if (result.equals("La solicitud no se encuentra")) {
+				System.out.println(controller.showReq(codeReq));
+			} else {
+				System.out.println(controller.showReq(codeReq));
+				System.out.println(
+						"Que deseas hacer con esta solicitud:\n1)Registrar como proyecto\n2)Postergar\n3)Rechazar");
+				int optionR = reader.nextInt();
+				switch (optionR) {
+					case 1:
+						registerProject(codeReq, optionR);
+
+						break;
+					case 2:
+						System.out.println("Solicitud postergada exitosamente");
+						break;
+					case 3:
+						controller.changeStatusReq(codeReq, optionR);
+						break;
+
+					default:
+						System.out.println("Selecciona algo valido");
+						break;
+				}
+			}
+		}
+
+	}
 }

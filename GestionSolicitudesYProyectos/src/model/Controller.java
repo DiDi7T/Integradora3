@@ -9,17 +9,15 @@ public class Controller {
 	private ArrayList<Project> storage;
 	private ArrayList<Area> areas;
 	private ArrayList<Collaborator> collaborators;
-	private ArrayList<Request>request;
+	private ArrayList<Request> request;
 	private int counterReq;
-	
 
 	public Controller() {
 		storage = new ArrayList<Project>();
 		areas = new ArrayList<Area>();
 		collaborators = new ArrayList<Collaborator>();
 		request = new ArrayList<Request>();
-		counterReq=0;
-		
+		counterReq = 0;
 
 		createTestCases();
 	}
@@ -29,17 +27,16 @@ public class Controller {
 	 * validate the operation of important methods
 	 */
 	public void createTestCases() {
-		addArea("Departamento de Computacion y sistemas inteligentes", "COD0", "AREA DE TRANSFORMACION",
+		addArea("Departamento de Computacion y sistemas inteligentes", "ARE0", "Area de informacion",
 				"Ana sofia Cabrera");
-		addArea("Direccion de Planeacion y Gestion de Calidad", "COD", "Area de Transformacion y Mejoramiento",
+		addArea("Direccion de Planeacion y Gestion de Calidad", "ARE1", "Area de Transformacion y Mejoramiento",
 				"Ana sofia Cabrera");
-		addCollaborator("COD", "123", "JUAN FELIPE", "jsjsjak", "jsajksajk");
+		addCollaborator("ARE1", "123", "JUAN FELIPE", "jsjsjak", "jsajksajk");
+		addRequest("ARE0", "se requiere optimizar el proceso de gestion administrativa", 1, "123");
 
-		storageKnowledge("COD4", "Prueba Proyectos", "Activo", "08-05-2023", 3, "Ana Sanchez", "Proyectos", 3, 3);
-		storageTransformation("COD5", "Prueba Proyectoss", "Cerrado", "28-05-2023", 3, "Ana Sanchez", "BU");
+		storageKnowledge("COD0", "Prueba Proyectos", "Activo", "08-05-2023", 3, "123", "Proyectos", 3, 3);
+		storageTransformation("CODx", "Prueba Proyectoss", "Cerrado", "28-05-2023", 3, "123", "BU");
 	}
-
-	
 
 	public String listArea() {
 
@@ -56,14 +53,12 @@ public class Controller {
 
 	}
 
-	
-
 	public String listAllCollaboratorsWithAreas() {
 		int count = 1;
 		String list = "";
 
 		for (Area area : areas) {
-			if (area.getCode().equalsIgnoreCase("COD")) {
+			if (area.getCode().equalsIgnoreCase("ARE1")) {
 				list += "Área: " + area.getName() + "\n";
 				for (Collaborator collaborator : area.getCollaborators()) {
 					list += "  - " + count + ". " + collaborator.getFullName() + ", ID: " + collaborator.getId();
@@ -132,46 +127,73 @@ public class Controller {
 		return false;
 
 	}
+
 	public Collaborator searchCollab(String id) {
-		
-	
+
 		for (Area area : areas) {
 			for (Collaborator collaborators : area.getCollaborators()) {
-				
+
 				if (collaborators != null && id.equalsIgnoreCase(collaborators.getId())) {
-					
+
 					return collaborators;
 				}
 			}
 		}
 		System.out.println("Colaborador no encontrado.");
 		return null;
-		
+
 	}
 
 	public String generatorCodeRequest() {
-        counterReq++;
-        return "COD" + counterReq;
-    }
+		counterReq++;
+		return "COD" + counterReq;
+	}
 
 	public boolean addRequest(String areaReq, String description, int status, String id) {
 		String code = generatorCodeRequest();
 		Area areaReqs = searchArea(areaReq);
-		Collaborator collab=searchCollab(id);
-	
-		Request newRequest = new Request(code,description, StatusReq.values()[status - 1],areaReqs,collab);
+		Collaborator collab = searchCollab(id);
+
+		Request newRequest = new Request(code, description, StatusReq.values()[status - 1], areaReqs, collab);
 		return request.add(newRequest);
 
 	}
 
 	public Request searchReq(String code) {
-        for (Request request : request) {
-            if (request.getCode().equals(code)) {
-                return request;
-            }
-        }
-        return null;
-    }
+		for (Request request : request) {
+			if (request.getCode().equalsIgnoreCase(code)) {
+				return request;
+			}
+		}
+		return null;
+	}
+
+	public String showReq(String code) {
+
+		Request temporal = searchReq(code);
+
+		if (temporal == null) {
+
+			return "La solicitud no se encuentra";
+
+		}
+		return temporal.toString();
+
+	}
+
+	public void changeStatusReq(String code, int status) {
+		StatusReq newStatus = StatusReq.PENDIENTE;
+		Request temporal = searchReq(code);
+		switch (status) {
+			case 1:
+				newStatus = StatusReq.APROBADA;
+				break;
+			case 3:
+				newStatus = StatusReq.RECHAZADA;
+				break;
+		}
+		temporal.setStatus(newStatus);
+	}
 
 	public String listReq() {
 
@@ -180,7 +202,28 @@ public class Controller {
 		for (int i = 0; i < request.size(); i++) {
 
 			list += "\n" + request.get(i).getCode() + "-" + request.get(i).getDescription() + "-"
-					+ request.get(i).getAreaReq().getName()+"-"+request.get(i).getResponsible().getFullName()+"-"+ new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getRegisterDate().getTime());
+					+ request.get(i).getAreaReq().getName() + "-" + request.get(i).getResponsible().getFullName() + "-"
+					+ new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getRegisterDate().getTime())+"-"
+					+ new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getStatusDate().getTime());
+
+		}
+
+		return list;
+
+	}
+
+	public String listReqOpen() {
+
+		String list = "";
+
+		for (int i = 0; i < request.size(); i++) {
+			if (request.get(i).getStatus() == StatusReq.PENDIENTE) {
+				list += "\n" + request.get(i).getCode() + "-" +
+						request.get(i).getDescription() + "-" +
+						request.get(i).getAreaReq().getName() + "-" +
+						request.get(i).getResponsible().getFullName()+ "-" +
+						new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getRegisterDate().getTime());
+			}
 
 		}
 
@@ -194,7 +237,7 @@ public class Controller {
 	 * @return list of priority
 	 */
 
-	 public String listStatusReq() {
+	public String listStatusReq() {
 
 		StatusReq[] statusReqsArray = StatusReq.values();
 
@@ -207,10 +250,6 @@ public class Controller {
 
 		return list;
 	}
-
-
-
-
 
 	/**
 	 * Description: This method allows you to list the projects
@@ -361,7 +400,7 @@ public class Controller {
 	 */
 
 	public boolean storageKnowledge(String code, String name, String status, String date, int prioridad,
-			String nameLeader, String nameProcess, int community, int type) {
+			String idLeader, String nameProcess, int community, int type) {
 
 		String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
 
@@ -374,6 +413,7 @@ public class Controller {
 
 		Priority newPriority = Priority.URGENTE;
 		String timeClosed = "";
+		Collaborator collab = searchCollab(idLeader);
 
 		switch (prioridad) {
 
@@ -407,7 +447,7 @@ public class Controller {
 			}
 
 		}
-		return storage.add(new Knowledge(code, name, status, newDate, newPriority, nameLeader, timeClosed, nameProcess,
+		return storage.add(new Knowledge(code, name, status, newDate, newPriority, collab, timeClosed, nameProcess,
 				Community.values()[community - 1], Type.values()[type - 1]));
 
 	}
@@ -430,7 +470,7 @@ public class Controller {
 	 */
 
 	public boolean storageTransformation(String code, String name, String status, String date, int prioridad,
-			String nameLeader, String codeProcess) {
+			String idLeader, String codeProcess) {
 
 		String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
 
@@ -443,6 +483,7 @@ public class Controller {
 
 		Priority newPriority = Priority.URGENTE;
 		String timeClosed = "";
+		Collaborator collab = searchCollab(idLeader);
 
 		switch (prioridad) {
 
@@ -477,7 +518,7 @@ public class Controller {
 
 		}
 		return storage
-				.add(new Transformation(code, name, status, newDate, newPriority, nameLeader, timeClosed, codeProcess));
+				.add(new Transformation(code, name, status, newDate, newPriority, collab, timeClosed, codeProcess));
 
 	}
 

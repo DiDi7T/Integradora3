@@ -8,6 +8,7 @@ public class Request {
     private StatusReq status;
     private Collaborator responsible;
     private Area areaReq;
+    private Calendar statusDate;
 
     public Request(String code,String description, StatusReq status, Area areaReq,Collaborator responsible) {
         this.code=code;
@@ -16,6 +17,7 @@ public class Request {
         this.status = status;
         this.responsible = responsible;
         this.areaReq = areaReq;
+       
     }
 
     
@@ -33,6 +35,7 @@ public class Request {
     }
 
     public void setStatus(StatusReq status) {
+        this.statusDate=Calendar.getInstance();
         this.status = status;
     }
 
@@ -66,6 +69,12 @@ public class Request {
 		return msg;
 		
 	}
+
+
+
+    public Calendar getStatusDate() {
+        return statusDate;
+    }
  
 
     

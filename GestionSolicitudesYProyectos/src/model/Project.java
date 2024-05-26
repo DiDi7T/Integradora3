@@ -11,10 +11,10 @@ public abstract class Project{
 	private String status;
 	private Calendar date;
 	private Priority priority;
-	private String nameLeader;
+	private Collaborator nameLeader;
 	private String timeClosed;
 
-	public Project(String code, String name, String status, Calendar date, Priority priority, String nameLeader,
+	public Project(String code, String name, String status, Calendar date, Priority priority, Collaborator nameLeader,
 			String timeClosed) {
 		this.code = code;
 		this.name = name;
@@ -38,7 +38,7 @@ public abstract class Project{
 		msg += "\nStatus: "+ status;
 		msg += "\nFecha:  "+  new SimpleDateFormat("dd/MM/yyyy").format(date.getTime());
 		msg += "\nPrioridad: " + priority;
-		msg += "\nNombre del lider: "+nameLeader;
+		msg += "\nNombre del lider: "+nameLeader.getFullName();
 		msg +="\nDias para cerrar=" + timeClosed;
 
 		return msg;
@@ -68,7 +68,7 @@ public abstract class Project{
 		return priority;
 	}
 
-	public String getNameLeader() {
+	public Collaborator getNameLeader() {
 		return nameLeader;
 	}
 
