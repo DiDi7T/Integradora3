@@ -8,12 +8,14 @@ public class Controller {
 	private ArrayList<Project> storage;
 	private ArrayList<Area> areas;
 	private ArrayList<Collaborator> collaborators;
+	private ArrayList<Request>request;
 	
 
 	public Controller() {
 		storage = new ArrayList<Project>();
 		areas = new ArrayList<Area>();
 		collaborators = new ArrayList<Collaborator>();
+		request = new ArrayList<Request>();
 		
 
 		createTestCases();
@@ -127,10 +129,60 @@ public class Controller {
 		return false;
 
 	}
+	public Collaborator searchCollab(String id) {
+		
+		for (int i = 0; i < collaborators.size(); i++) {
+
+			Collaborator temporal = collaborators.get(i);
+
+			if (temporal != null) {
+
+				if (id.equalsIgnoreCase(temporal.getId())) {
+
+					return temporal;
+
+				}
+			}
+
+		}
+
+		return null;
+	}
+
+
+	public boolean addRequest(String description, int status, String areaReq, String id) {
+
+		Area areaReqs = searchArea(areaReq);
+		Collaborator collab=searchCollab(id);
+		Request newRequest = new Request(description, StatusReq.values()[status - 1],areaReqs,collab);
+		return request.add(newRequest);
+
+	}
+
+
+	/**
+	 * Description: This method allows you to list the priorities
+	 * 
+	 * @return list of priority
+	 */
+
+	 public String listStatusReq() {
+
+		StatusReq[] statusReqsArray = StatusReq.values();
+
+		String list = "";
+
+		for (int i = 0; i < statusReqsArray.length; i++) {
+
+			list += "\n" + (i + 1) + "-" + statusReqsArray[i];
+		}
+
+		return list;
+	}
 
 
 
-	
+
 
 	/**
 	 * Description: This method allows you to list the projects
