@@ -2,6 +2,7 @@ package model;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Controller {
@@ -9,6 +10,7 @@ public class Controller {
 	private ArrayList<Area> areas;
 	private ArrayList<Collaborator> collaborators;
 	private ArrayList<Request>request;
+	private int counterReq;
 	
 
 	public Controller() {
@@ -16,6 +18,7 @@ public class Controller {
 		areas = new ArrayList<Area>();
 		collaborators = new ArrayList<Collaborator>();
 		request = new ArrayList<Request>();
+		counterReq=0;
 		
 
 		createTestCases();
@@ -30,7 +33,7 @@ public class Controller {
 				"Ana sofia Cabrera");
 		addArea("Direccion de Planeacion y Gestion de Calidad", "COD", "Area de Transformacion y Mejoramiento",
 				"Ana sofia Cabrera");
-		addCollaborator("COD", "1029293", "JUAN FELIPE", "jsjsjak", "jsajksajk");
+		addCollaborator("COD", "123", "JUAN FELIPE", "jsjsjak", "jsajksajk");
 
 		storageKnowledge("COD4", "Prueba Proyectos", "Activo", "08-05-2023", 3, "Ana Sanchez", "Proyectos", 3, 3);
 		storageTransformation("COD5", "Prueba Proyectoss", "Cerrado", "28-05-2023", 3, "Ana Sanchez", "BU");
@@ -131,34 +134,59 @@ public class Controller {
 	}
 	public Collaborator searchCollab(String id) {
 		
-		for (int i = 0; i < collaborators.size(); i++) {
-
-			Collaborator temporal = collaborators.get(i);
-
-			if (temporal != null) {
-
-				if (id.equalsIgnoreCase(temporal.getId())) {
-
-					return temporal;
-
+	
+		for (Area area : areas) {
+			for (Collaborator collaborators : area.getCollaborators()) {
+				
+				if (collaborators != null && id.equalsIgnoreCase(collaborators.getId())) {
+					
+					return collaborators;
 				}
 			}
-
 		}
-
+		System.out.println("Colaborador no encontrado.");
 		return null;
+		
 	}
 
+	public String generatorCodeRequest() {
+        counterReq++;
+        return "COD" + counterReq;
+    }
 
 	public boolean addRequest(String areaReq, String description, int status, String id) {
-
+		String code = generatorCodeRequest();
 		Area areaReqs = searchArea(areaReq);
 		Collaborator collab=searchCollab(id);
-		Request newRequest = new Request(description, StatusReq.values()[status - 1],areaReqs,collab);
+	
+		Request newRequest = new Request(code,description, StatusReq.values()[status - 1],areaReqs,collab);
 		return request.add(newRequest);
 
 	}
 
+	public Request searchReq(String code) {
+        for (Request request : request) {
+            if (request.getCode().equals(code)) {
+                return request;
+            }
+        }
+        return null;
+    }
+
+	public String listReq() {
+
+		String list = "";
+
+		for (int i = 0; i < request.size(); i++) {
+
+			list += "\n" + request.get(i).getCode() + "-" + request.get(i).getDescription() + "-"
+					+ request.get(i).getAreaReq().getName()+"-"+request.get(i).getResponsible().getFullName()+"-"+ new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getRegisterDate().getTime());
+
+		}
+
+		return list;
+
+	}
 
 	/**
 	 * Description: This method allows you to list the priorities

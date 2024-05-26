@@ -1,13 +1,16 @@
 package model;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 public class Request {
+    private String code;
     private Calendar registerDate;
     private String description;
     private StatusReq status;
     private Collaborator responsible;
     private Area areaReq;
 
-    public Request(String description, StatusReq status, Area areaReq,Collaborator responsible) {
+    public Request(String code,String description, StatusReq status, Area areaReq,Collaborator responsible) {
+        this.code=code;
         this.registerDate = Calendar.getInstance();
         this.description = description;
         this.status = status;
@@ -15,6 +18,8 @@ public class Request {
         this.areaReq = areaReq;
     }
 
+    
+    
     public Calendar getRegisterDate() {
         return registerDate;
     }
@@ -39,6 +44,28 @@ public class Request {
         return areaReq;
     }
 
+
+
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+	public String toString() {
+
+		String msg = "";
+
+		msg += "Codigo de la solicitud: " + code;
+		msg += "\nFecha de registro: " + new SimpleDateFormat("dd/MM/yyyy").format(registerDate.getTime());
+		msg += "\nDescripcion: "+ description;
+		msg += "\nEstado:  "+  status;
+		msg += "\nArea solicitante: " + areaReq;
+		msg += "\nColaborador responsable: "+responsible;
+		
+
+		return msg;
+		
+	}
  
 
     

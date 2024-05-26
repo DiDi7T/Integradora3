@@ -42,6 +42,7 @@ public class Executable {
 
 				case 1:
 					registerRequest();
+					System.out.println(controller.listReq());
 					break;
 				case 2:
 					System.out.println("Proximamente :)");

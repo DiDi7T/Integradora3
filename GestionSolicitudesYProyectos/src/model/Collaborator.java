@@ -14,6 +14,7 @@ public class Collaborator {
         this.fullName = fullName;
         this.email = email;
         this.extension = extension;
+        this.area=area;
        
     }
 
@@ -49,8 +50,8 @@ public class Collaborator {
 		
 		msg+= "Numero de identificacion:" + id;
 		msg += "\nNombre Completo" +fullName;
-		msg += "\nNombre del area: " + area;
-        msg += "\nNombre del lider de area: " + extension;
+		msg += "\nNombre del area: " + area.getName();
+        msg += "\nNumero de la extension " + extension;
 		
 		return msg;
     }
