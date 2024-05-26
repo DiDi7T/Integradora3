@@ -41,7 +41,7 @@ public class Executable {
 			switch (option) {
 
 				case 1:
-					System.out.println(controller.listAllCollaboratorsWithAreas());
+					registerRequest();
 					break;
 				case 2:
 					System.out.println("Proximamente :)");
@@ -84,6 +84,35 @@ public class Executable {
 			}
 
 		} while (flag);
+
+	}
+
+	public void registerRequest() {
+
+		reader.nextLine(); // Correccion del bug del Scanner
+
+		System.out.println(controller.listArea());
+		System.out.println("Digite el codigo del area solicitante:");
+		String code = reader.nextLine();
+
+		System.out.println("Digite la descripcion de la solicitud:");
+		String description = reader.nextLine();
+
+		int status = 1;
+		
+
+		System.out.println(controller.listAllCollaboratorsWithAreas());
+		System.out.println("Digite el id del colaborador que sera responsable de esta solicitud:");
+		String collab = reader.nextLine();
+
+		
+		boolean resultado = controller.addRequest(code,description,status,collab);
+
+		if (resultado) {
+			System.out.println("Solicitud registrada exitosamente");
+		} else {
+			System.out.println("Error, la solicitud no se ha podido registrar");
+		}
 
 	}
 
@@ -282,9 +311,9 @@ public class Executable {
 				community, type);
 
 		if (resultado) {
-			System.out.println("Producto registrado exitosamente");
+			System.out.println("Proyecto registrado exitosamente");
 		} else {
-			System.out.println("Error, el producto no se ha podido registrar");
+			System.out.println("Error, el proyecto no se ha podido registrar");
 		}
 
 	}
@@ -326,9 +355,9 @@ public class Executable {
 				codeProcess);
 
 		if (resultado) {
-			System.out.println("Producto registrado exitosamente");
+			System.out.println("Proyecto registrado exitosamente");
 		} else {
-			System.out.println("Error, el producto no se ha podido registrar");
+			System.out.println("Error, el proyecto no se ha podido registrar");
 		}
 
 	}

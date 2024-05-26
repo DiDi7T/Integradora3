@@ -150,7 +150,7 @@ public class Controller {
 	}
 
 
-	public boolean addRequest(String description, int status, String areaReq, String id) {
+	public boolean addRequest(String areaReq, String description, int status, String id) {
 
 		Area areaReqs = searchArea(areaReq);
 		Collaborator collab=searchCollab(id);
