@@ -8,15 +8,13 @@ public class Controller {
 	private ArrayList<Project> storage;
 	private ArrayList<Area> areas;
 	private ArrayList<Collaborator> collaborators;
-	// private Area[] areas;
-	// private Collaborator[] collaborators;
+	
 
 	public Controller() {
 		storage = new ArrayList<Project>();
 		areas = new ArrayList<Area>();
 		collaborators = new ArrayList<Collaborator>();
-		// areas =new Area[500];
-		// collaborators=new Collaborator[4];
+		
 
 		createTestCases();
 	}
@@ -129,6 +127,10 @@ public class Controller {
 		return false;
 
 	}
+
+
+
+	
 
 	/**
 	 * Description: This method allows you to list the projects
