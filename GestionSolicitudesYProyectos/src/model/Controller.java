@@ -2,6 +2,8 @@ package model;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -29,13 +31,19 @@ public class Controller {
 	public void createTestCases() {
 		addArea("Departamento de Computacion y sistemas inteligentes", "ARE0", "Area de informacion",
 				"Ana sofia Cabrera");
+
 		addArea("Direccion de Planeacion y Gestion de Calidad", "ARE1", "Area de Transformacion y Mejoramiento",
-				"Ana sofia Cabrera");
-		addCollaborator("ARE1", "123", "JUAN FELIPE", "jsjsjak", "jsajksajk");
+				"Ana sofia Henao");
+		addCollaborator("ARE1", "123", "Juan Felipe Cabrera", "juan.f@gmail.com", "230");
+		addCollaborator("ARE1", "345", "Ana Sofia Henao", "ana.h@gmail.com", "235");
+		addCollaborator("ARE1", "678", "Jesica Pulido", "jess.p@gmail.com", "236");
+		addCollaborator("ARE1", "900", "Axel Rose", "axel.r@gmail.com", "237");
 		addRequest("ARE0", "se requiere optimizar el proceso de gestion administrativa", 1, "123");
 
-		//storageKnowledge("COD1", "Prueba Proyectos", "Activo", 3, "123", "Proyectos", 3, 3);
-		//storageTransformation("CODx", "Prueba Proyectoss", "Cerrado", 3, "123", "BU");
+		// storageKnowledge("COD1", "Prueba Proyectos", "Activo", 3, "123", "Proyectos",
+		// 3, 3);
+		// storageTransformation("CODx", "Prueba Proyectoss", "Cerrado", 3, "123",
+		// "BU");
 	}
 
 	public String listArea() {
@@ -61,7 +69,7 @@ public class Controller {
 			if (area.getCode().equalsIgnoreCase("ARE1")) {
 				list += "Área: " + area.getName() + "\n";
 				for (Collaborator collaborator : area.getCollaborators()) {
-					list += "  - " + count + ". " + collaborator.getFullName() + ", ID: " + collaborator.getId();
+					list += "\n" + count + ". " + collaborator.getFullName() + ", ID: " + collaborator.getId();
 					count++;
 				}
 			}
@@ -203,7 +211,7 @@ public class Controller {
 
 			list += "\n" + request.get(i).getCode() + "-" + request.get(i).getDescription() + "-"
 					+ request.get(i).getAreaReq().getName() + "-" + request.get(i).getResponsible().getFullName() + "-"
-					+ new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getRegisterDate().getTime())+"-"
+					+ new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getRegisterDate().getTime()) + "-"
 					+ new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getStatusDate().getTime());
 
 		}
@@ -221,7 +229,7 @@ public class Controller {
 				list += "\n" + request.get(i).getCode() + "-" +
 						request.get(i).getDescription() + "-" +
 						request.get(i).getAreaReq().getName() + "-" +
-						request.get(i).getResponsible().getFullName()+ "-" +
+						request.get(i).getResponsible().getFullName() + "-" +
 						new SimpleDateFormat("dd/MM/yyyy").format(request.get(i).getRegisterDate().getTime());
 			}
 
@@ -402,12 +410,13 @@ public class Controller {
 	public boolean storageKnowledge(String code, String name, String status, int prioridad,
 			String idLeader, String nameProcess, int community, int type) {
 
-		// String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
-		Request temporal = searchReq(code);		
+		// String[] arrayDate = date.split("-"); // esplit es para partir cadenas de
+		// texto.
+		Request temporal = searchReq(code);
 		// int day = Integer.parseInt(arrayDate[0]);
 		// int month = Integer.parseInt(arrayDate[1]) - 1;
 		// int year = Integer.parseInt(arrayDate[2]);
-		
+
 		Calendar newDate = temporal.getStatusDate();
 		// newDate.set(year, month, day);
 
@@ -452,14 +461,26 @@ public class Controller {
 
 	}
 
-	public String listarProyectosPorColaborador(String code) {
-		String list="";
-		Collaborator collaborator=searchCollab(code);
-		for (Project projects : storage) {
-			if (projects.getNameLeader().equals(collaborator)) {
-				list+="Código: " + projects.getCode();
-				
+	public String listarProyectosPorColaborador() {
+		String list = "";
+		for (Area area : areas) {
+			if (area.getCode().equalsIgnoreCase("ARE1")) {
+
+				for (Collaborator collaborator : area.getCollaborators()) {
+					Collaborator coll = searchCollab(collaborator.getId());
+					int projectCount = 0;
+					for (Project projects : storage) {
+						if (projects.getNameLeader().equals(coll)) {
+							projectCount++;
+
+						}
+					}
+
+					list += "\nColaborador: " + collaborator.getFullName() + " tiene " + projectCount + " proyectos.";
+				}
+
 			}
+			
 		}return list;
 	}
 
@@ -483,8 +504,9 @@ public class Controller {
 	public boolean storageTransformation(String code, String name, String status, int prioridad,
 			String idLeader, String codeProcess) {
 
-		// String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
-		Request temporal = searchReq(code);	
+		// String[] arrayDate = date.split("-"); // esplit es para partir cadenas de
+		// texto.
+		Request temporal = searchReq(code);
 		// int day = Integer.parseInt(arrayDate[0]);
 		// int month = Integer.parseInt(arrayDate[1]) - 1;
 		// int year = Integer.parseInt(arrayDate[2]);
@@ -604,64 +626,105 @@ public class Controller {
 
 	}
 
-	/**
-	 * Description: This method allows you to update a Priority in project in the
-	 * system
-	 * pre: the storage array is initialized
-	 * 
-	 * @param code     The code of the project search
-	 * @param priority The priority of the project
-	 * @return boolean If the specie was saved correctly it will be True, if not it
-	 *         will be False.
-	 */
-	// public boolean updatePriorityInProject(String code, int priority ) {
+	// public void visualizarInformacionMatricial() {
 
-	// Priority newPriority = Priority.URGENTE;
-	// String timeClosed="";
+	// for (Collaborator collaborator : collaborators) {
+	// ArrayList<Project> projects = collaborator.getProjects();
 
-	// switch(priority){
+	// // Ordenar proyectos por prioridad y fecha de cierre
+	// Collections.sort(projects, new Comparator<Project>() {
+	// @Override
+	// public int compare(Project p1, Project p2) {
+	// // Comparar por prioridad
+	// int priorityComparison = p1.getPriority().compareTo(p2.getPriority());
+	// if (priorityComparison != 0) {
+	// return priorityComparison;
+	// }
+	// // Si las prioridades son iguales, comparar por fecha de cierre
+	// return p1.getDateClosed().compareTo(p2.getDateClosed());
+	// }
+	// });
 
-	// case 1:
-	// newPriority = Priority.URGENTE;
-	// timeClosed="5 dias";
-	// break;
+	// // Obtener los últimos 5 proyectos
+	// int start = Math.max(0, projects.size() - 5);
+	// ArrayList<Project> lastFiveProjects = new ArrayList<>(projects.subList(start,
+	// projects.size()));
 
-	// case 2:
-	// newPriority = Priority.ALTA;
-	// timeClosed="10 dias";
-	// break;
-
-	// case 3:
-	// newPriority = Priority.MEDIA;
-	// timeClosed="30 dias";
-	// break;
-
-	// case 4:
-	// newPriority = Priority.BAJA;
-	// timeClosed="60 dias";
-	// break;
+	// // Imprimir la información en forma matricial
+	// System.out.println("Colaborador: " + collaborator.getFullName());
+	// for (Project project : lastFiveProjects) {
+	// System.out.println("Código: " + project.getCode() + ", Prioridad: " +
+	// project.getPriority().name().charAt(0) + ", Fecha de cierre: " +
+	// project.getClosureDate());
+	// }
+	// System.out.println();
+	// }
 	// }
 
-	// int i =searchIndexProject(code);
+	public String contarProyectosPorTipoYPrioridad() {
+		String list = "";
+		int knowledgeManagementUrgent = 0;
+		int knowledgeManagementHigh = 0;
+		int knowledgeManagementMedium = 0;
+		int knowledgeManagementLow = 0;
 
-	// if(temporal!=null){
-	// //Specie newSpecie = new Specie (temporal,name,newType,photo,amount);
+		int processImprovementUrgent = 0;
+		int processImprovementHigh = 0;
+		int processImprovementMedium = 0;
+		int processImprovementLow = 0;
+		int counterK = 0;
+		int counterT = 0;
 
-	// return temporal.set(temporal, newPriority,timeClosed);
+		// for (Collaborator collaborator : collaborators) {
+		// ArrayList<Project> projects = collaborator.getProjects();
+		for (Project project : storage) {
+			if (project instanceof Knowledge) {
+				counterK++;
+				switch (project.getPriority()) {
+					case URGENTE:
+						knowledgeManagementUrgent++;
+						break;
+					case MEDIA:
+						knowledgeManagementHigh++;
+						break;
+					case ALTA:
+						knowledgeManagementMedium++;
+						break;
+					case BAJA:
+						knowledgeManagementLow++;
+						break;
+				}
+			} else if (project instanceof Transformation) {
+				counterT++;
+				switch (project.getPriority()) {
+					case URGENTE:
+						processImprovementUrgent++;
+						break;
+					case MEDIA:
+						processImprovementHigh++;
+						break;
+					case ALTA:
+						processImprovementMedium++;
+						break;
+					case BAJA:
+						processImprovementLow++;
+						break;
+				}
+			}
+		}
+		// }
+		list += "Proyectos de Gestion de conocimiento:" + counterK + "\n";
+		list += "Urgente: " + knowledgeManagementUrgent;
+		list += "  Alta: " + knowledgeManagementHigh;
+		list += "  Media: " + knowledgeManagementMedium;
+		list += "  Baja: " + knowledgeManagementLow;
+		list += "\nProyectos de Transformacion/Mejoramiento:" + counterT + "\n";
+		list += "Urgente:" + processImprovementUrgent;
+		list += "  Alta:" + processImprovementHigh;
+		list += "  Media:" + processImprovementMedium;
+		list += "  Baja:" + processImprovementLow;
 
-	// }
-	// for (int i = 0; i < storage.size(); i++) {
-
-	// if (storage.get(i).getCode().equals(code)) {
-
-	// return false;
-
-	// }
-
-	// }
-	// return storage.set(i,newPriority,i,timeClosed));
-
-	// return false;
-	// }
+		return list;
+	}
 
 }

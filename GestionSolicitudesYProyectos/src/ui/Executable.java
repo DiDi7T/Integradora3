@@ -221,11 +221,11 @@ public class Executable {
 		switch (option) {
 
 			case 1:
-
+				System.out.println(controller.contarProyectosPorTipoYPrioridad());
 				break;
 
 			case 2:
-
+				System.out.println(controller.listarProyectosPorColaborador());
 				break;
 			case 3:
 

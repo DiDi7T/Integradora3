@@ -9,7 +9,8 @@ public class Collaborator {
     private String fullName;
     private String email;
     private String extension;
-     private ArrayList<Project> projects;
+    private ArrayList<Project> projects;
+
 
     public Collaborator(Area area, String id, String fullName, String email, String extension) {
         this.id = id;
@@ -18,7 +19,7 @@ public class Collaborator {
         this.extension = extension;
         this.area=area;
         this.projects = new ArrayList<>();
-       
+      
     }
 
 
