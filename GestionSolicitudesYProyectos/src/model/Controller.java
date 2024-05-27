@@ -34,8 +34,8 @@ public class Controller {
 		addCollaborator("ARE1", "123", "JUAN FELIPE", "jsjsjak", "jsajksajk");
 		addRequest("ARE0", "se requiere optimizar el proceso de gestion administrativa", 1, "123");
 
-		storageKnowledge("COD0", "Prueba Proyectos", "Activo", "08-05-2023", 3, "123", "Proyectos", 3, 3);
-		storageTransformation("CODx", "Prueba Proyectoss", "Cerrado", "28-05-2023", 3, "123", "BU");
+		//storageKnowledge("COD1", "Prueba Proyectos", "Activo", 3, "123", "Proyectos", 3, 3);
+		//storageTransformation("CODx", "Prueba Proyectoss", "Cerrado", 3, "123", "BU");
 	}
 
 	public String listArea() {
@@ -399,17 +399,17 @@ public class Controller {
 	 *         will be False.
 	 */
 
-	public boolean storageKnowledge(String code, String name, String status, String date, int prioridad,
+	public boolean storageKnowledge(String code, String name, String status, int prioridad,
 			String idLeader, String nameProcess, int community, int type) {
 
-		String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
-
-		int day = Integer.parseInt(arrayDate[0]);
-		int month = Integer.parseInt(arrayDate[1]) - 1;
-		int year = Integer.parseInt(arrayDate[2]);
-
-		Calendar newDate = Calendar.getInstance();
-		newDate.set(year, month, day);
+		// String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
+		Request temporal = searchReq(code);		
+		// int day = Integer.parseInt(arrayDate[0]);
+		// int month = Integer.parseInt(arrayDate[1]) - 1;
+		// int year = Integer.parseInt(arrayDate[2]);
+		
+		Calendar newDate = temporal.getStatusDate();
+		// newDate.set(year, month, day);
 
 		Priority newPriority = Priority.URGENTE;
 		String timeClosed = "";
@@ -452,6 +452,17 @@ public class Controller {
 
 	}
 
+	public String listarProyectosPorColaborador(String code) {
+		String list="";
+		Collaborator collaborator=searchCollab(code);
+		for (Project projects : storage) {
+			if (projects.getNameLeader().equals(collaborator)) {
+				list+="Código: " + projects.getCode();
+				
+			}
+		}return list;
+	}
+
 	/**
 	 * Description: This method allows you to store a project Transformation in the
 	 * system
@@ -469,17 +480,17 @@ public class Controller {
 	 *         will be False.
 	 */
 
-	public boolean storageTransformation(String code, String name, String status, String date, int prioridad,
+	public boolean storageTransformation(String code, String name, String status, int prioridad,
 			String idLeader, String codeProcess) {
 
-		String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
+		// String[] arrayDate = date.split("-"); // esplit es para partir cadenas de texto.
+		Request temporal = searchReq(code);	
+		// int day = Integer.parseInt(arrayDate[0]);
+		// int month = Integer.parseInt(arrayDate[1]) - 1;
+		// int year = Integer.parseInt(arrayDate[2]);
 
-		int day = Integer.parseInt(arrayDate[0]);
-		int month = Integer.parseInt(arrayDate[1]) - 1;
-		int year = Integer.parseInt(arrayDate[2]);
-
-		Calendar newDate = Calendar.getInstance();
-		newDate.set(year, month, day);
+		Calendar newDate = temporal.getStatusDate();
+		// newDate.set(year, month, day);
 
 		Priority newPriority = Priority.URGENTE;
 		String timeClosed = "";

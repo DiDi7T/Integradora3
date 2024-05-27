@@ -7,6 +7,7 @@ public class Transformation extends Project{
 	
 	private String codeProcess;
 	private Calendar dateClosed;
+    private Calendar realDateClosed;
 
     public Transformation(String code, String name, String status, Calendar date, Priority priority, Collaborator nameLeader,
             String timeClosed, String codeProcess) {
@@ -22,7 +23,12 @@ public class Transformation extends Project{
         return codeProcess;
     }
 
-    
+    @Override
+    public boolean setStatus(String status) {
+		super.setStatus(status);
+        this.realDateClosed=Calendar.getInstance();
+		return true;
+	}
 
     @Override
     public String toString() {
@@ -36,6 +42,9 @@ public class Transformation extends Project{
         msg += "\nDias para cerrar: " + getTimeClosed();
         msg += "\nCodigo del proceso:" + codeProcess;
         msg += "\nFecha estimada de cierre: " + new SimpleDateFormat("dd/MM/yyyy").format(dateClosed.getTime());
+        if(getStatus().equalsIgnoreCase("Cerrado")){
+            msg+="\nFecha real de cierre: "+new SimpleDateFormat("dd/MM/yyyy").format(realDateClosed.getTime());
+        }
         return msg;
     }
 

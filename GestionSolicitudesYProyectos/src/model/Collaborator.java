@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Collaborator {
     
     private Area area;
@@ -7,7 +9,7 @@ public class Collaborator {
     private String fullName;
     private String email;
     private String extension;
-    private Project[] projects;
+     private ArrayList<Project> projects;
 
     public Collaborator(Area area, String id, String fullName, String email, String extension) {
         this.id = id;
@@ -15,6 +17,7 @@ public class Collaborator {
         this.email = email;
         this.extension = extension;
         this.area=area;
+        this.projects = new ArrayList<>();
        
     }
 
@@ -39,7 +42,7 @@ public class Collaborator {
         return area;
     }
 
-    public Project[] getProjects() {
+    public ArrayList<Project> getProjects() {
         return projects;
     }
 
@@ -55,6 +58,7 @@ public class Collaborator {
 		
 		return msg;
     }
+    
 
 
        

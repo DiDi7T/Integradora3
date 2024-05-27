@@ -13,6 +13,7 @@ public abstract class Project{
 	private Priority priority;
 	private Collaborator nameLeader;
 	private String timeClosed;
+	
 
 	public Project(String code, String name, String status, Calendar date, Priority priority, Collaborator nameLeader,
 			String timeClosed) {
@@ -85,6 +86,7 @@ public abstract class Project{
 	
 
 	public boolean setStatus(String status) {
+		
 		this.status = status;
 		return true;
 	}

@@ -43,13 +43,17 @@ public class Executable {
 				case 1:
 
 					registerRequest();
-					System.out.println(controller.listReq());
+					System.out.println(controller.listReqOpen());
 					break;
 				case 2:
 					changeReq();
 					break;
 				case 3:
-
+				// reader.nextLine();
+				// System.out.println(controller.listAllCollaboratorsWithAreas());
+				// System.out.println("Digite el id del colaborador que sera el lider del proyecto");
+				// String nameLeader = reader.nextLine();
+				// System.out.println(controller.listarProyectosPorColaborador(nameLeader));
 					closedProject();
 
 					break;
@@ -249,13 +253,13 @@ public class Executable {
 		switch (option) {
 
 			case 1:
-				registerKnowledge(codeReq);
-				controller.changeStatusReq(codeReq, optionR);
+				registerKnowledge(codeReq,optionR);
+				
 				break;
 
 			case 2:
-				registerTransformation(codeReq);
-				controller.changeStatusReq(codeReq, optionR);
+				registerTransformation(codeReq,optionR);
+				
 				break;
 			case 0:
 				System.out.println("Volviendo al menu principal\n");
@@ -272,10 +276,10 @@ public class Executable {
 	 * Description: This method register a project of type Knowledge
 	 */
 
-	public void registerKnowledge(String codeReq) {
+	public void registerKnowledge(String codeReq, int optionR) {
 
 		reader.nextLine(); // Correccion del bug del Scanner
-
+		controller.changeStatusReq(codeReq, optionR);
 		// System.out.println("Digite el codigo del proyecto");
 		String code = codeReq.toUpperCase();
 
@@ -284,8 +288,8 @@ public class Executable {
 
 		String status = "Activo";
 
-		System.out.println("Digite la fecha de aceptacion del proyecto (dd-mm-aaaa)");
-		String date = reader.nextLine();
+		// System.out.println("Digite la fecha de aceptacion del proyecto (dd-mm-aaaa)");
+		// String date = reader.nextLine();
 
 		System.out.println("Seleccione la prioridad del proyecto");
 		System.out.println(controller.listPriority());
@@ -308,7 +312,7 @@ public class Executable {
 		System.out.println(controller.listType());
 		int type = reader.nextInt();
 
-		boolean resultado = controller.storageKnowledge(code, name, status, date, priority, nameLeader, nameProcess,
+		boolean resultado = controller.storageKnowledge(code, name, status, priority, nameLeader, nameProcess,
 				community, type);
 
 		if (resultado) {
@@ -323,10 +327,10 @@ public class Executable {
 	 * Description: This method register a project of type Transformation
 	 */
 
-	public void registerTransformation(String codeReq) {
+	public void registerTransformation(String codeReq, int optionR) {
 
 		reader.nextLine(); // Correccion del bug del Scanner
-
+		controller.changeStatusReq(codeReq, optionR);
 		// System.out.println("Digite el codigo del proyecto");
 		String code = codeReq.toUpperCase();
 
@@ -335,8 +339,8 @@ public class Executable {
 
 		String status = "Activo";
 
-		System.out.println("Digite la fecha de aceptacion del proyecto (dd-mm-aaaa)");
-		String date = reader.nextLine();
+		// System.out.println("Digite la fecha de aceptacion del proyecto (dd-mm-aaaa)");
+		// String date = reader.nextLine();
 
 		System.out.println("Seleccione la prioridad del proyecto");
 		System.out.println(controller.listPriority());
@@ -344,15 +348,14 @@ public class Executable {
 
 		reader.nextLine();
 
-		System.out.println("Digite el nombre del lider del proyecto:");
-		System.out.println(
-				"AREA DE TRANSFOMRACION \n 1. Ana Suarez \n 2. Guillermo Duarte\n 3.Rodrigo Martinez\n 4.Lina Forz");
+		System.out.println(controller.listAllCollaboratorsWithAreas());
+		System.out.println("Digite el id del colaborador que sera el lider del proyecto");
 		String nameLeader = reader.nextLine();
 
 		System.out.println("Digite el codigo del proceso a mejorar");
 		String codeProcess = reader.nextLine();
 
-		boolean resultado = controller.storageTransformation(code, name, status, date, priority, nameLeader,
+		boolean resultado = controller.storageTransformation(code, name, status, priority, nameLeader,
 				codeProcess);
 
 		if (resultado) {
